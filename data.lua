@@ -10,7 +10,7 @@ load_small_norb = function(data_dir)
 
   if not paths.filep(norb_dir.."processed_smallnorb.tar.gz") then
      local www = 'http://cims.nyu.edu/~tompson/data/processed_smallnorb.tar.gz'
-     local tar = sys.basename(www)
+     local tar = '/processed_smallnorb.tar.gz'
      os.execute('wget -P ' .. norb_dir .. ' ' .. www)
      os.execute('tar -C ' .. norb_dir .. ' -xvf ' .. norb_dir .. tar)
   end

@@ -19,8 +19,8 @@ torch.setdefaulttensortype('torch.FloatTensor')
 torch.setnumthreads(4)
 torch.manualSeed(1)
 math.randomseed(1)
-print("GPU That will be used:")
 cutorch.setDevice(2)
+if math.mod == nil then math.mod = math.fmod end
 
 -- *************************************
 -- PARAMETERS
