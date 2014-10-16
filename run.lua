@@ -29,7 +29,7 @@ data_dir = './data/'
 results_dir = './results/' 
 os.execute('mkdir -p '..results_dir)
 os.execute('mkdir -p '..data_dir)
-network_dim = {500, 200, 2}  -- 1st, 2nd, 3rd layer dimensions
+network_dim = {500, 200, 3}  -- 1st, 2nd, 3rd layer dimensions
 margin = 1.5  -- HingeEmbeddingCriterion parameter
 M = 8   -- Number of dissimilar pairs parameter when generating epoch data 
         -- (defines ratio of similar to dissimilar pairs)
@@ -92,7 +92,7 @@ end
 
 -- Save the lower dimension points to disk
 n = factors:size(1)
-x_low_dim = torch.FloatTensor(n,network_dim[#network_dim])
+x_low_dim = torch.FloatTensor(n, network_dim[#network_dim])
 model_encoder = encoder:clone()
 sample = torch.CudaTensor(im_size)
 for i = 1,n do
