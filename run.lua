@@ -50,10 +50,22 @@ factors, kNN = select_norb_subset(factors, {4})  -- def instances = {4,6,7,8,9}
 -- plot_data()
 --Basic preprocessing 
 X = norb:reshape(norb:size(1),norb:size(3)*norb:size(4)):float():squeeze()
+width = math.sqrt(X:size(2))
+height = math.sqrt(X:size(2))
 X:add(-X:mean())  
 X:div(X:max())
 im_size = X:size(2)
 collectgarbage()  
+
+-- Plot some examples
+nplot = 9
+imgs = torch.FloatTensor(nplot,X:size(2))
+for i = 1, nplot do
+  local cur_index = factors[torch.random(factors:size(1))][1]
+  imgs[i]:copy(X[cur_index])
+end
+imgs = imgs:reshape(nplot, 1, height, width)
+image.display(imgs)
 
 -- *************************************
 -- DEFINE THE MODEL
