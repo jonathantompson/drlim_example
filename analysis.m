@@ -8,8 +8,7 @@ fid = fopen('results/factors.bin');
 factors = double(fread(fid, '*int32'));
 fclose(fid);
 
-dim = 3;
-
+dim = 2;
 x_low_dim = reshape(x_low_dim, dim, length(x_low_dim) / dim)';
 factors = reshape(factors, 3, length(factors) / 3)';
 
@@ -21,19 +20,21 @@ if (dim == 2)
   circle_size = 10;
   scatter(x_low_dim(:,1), x_low_dim(:,2), circle_size, ...
     elevation_colors);
-  
+  title('Image points in R2 - colored by elevation')
   figure;
   scatter(x_low_dim(:,1), x_low_dim(:,2), circle_size, ...
     azimuth_colors');
+  title('Image points in R2 - colored by azimuth')
 elseif (dim == 3)
   figure;
   circle_size = 10;
   scatter3(x_low_dim(:,1), x_low_dim(:,2), x_low_dim(:,3), circle_size, ...
     elevation_colors, 'fill');
-  
+  title('Image points in R3 - colored by elevation')
   figure;
   scatter3(x_low_dim(:,1), x_low_dim(:,2), x_low_dim(:,3), circle_size, ...
     azimuth_colors, 'fill');
+  title('Image points in R3 - colored by azimuth')
 else
   display('Cannot plot higher dims!')
 end

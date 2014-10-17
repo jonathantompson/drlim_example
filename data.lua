@@ -39,19 +39,17 @@ end
 -- This function was EXP2_data in the original codebase (Ross and Jonathan's)
 -- single-instances of rotating objects
 -- factors =[1.sample #][2.instance 4,6,7,8,9][3.elevation][4.azimuth][5.lighting][6.class]
-select_norb_subset = function(factors, instances)
+select_norb_subset = function(factors, instances, class)
     local kNN = torch.zeros(#instances,162,5):int()
 
     for idx,inst in ipairs(instances) do
-
-        local filter = {[2] = inst, [5] = 1, [6] = 2}
+        local filter = {[2] = inst, [5] = 1, [6] = class}
         local inst_factors = apply_filter(factors, filter)
         kNN[idx] = find_fNN(inst_factors)
-
     end
 
     --single lighting condition, single class
-    local filt_factors = apply_filter(factors, {[5] = 1, [6] = 2})
+    local filt_factors = apply_filter(factors, {[5] = 1, [6] = class})
 
     --remove instance information  
     filt_factors = torch.cat(filt_factors:select(2,1), filt_factors:narrow(2,3,2), 2)

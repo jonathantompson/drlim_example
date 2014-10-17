@@ -29,12 +29,12 @@ data_dir = './data/'
 results_dir = './results/' 
 os.execute('mkdir -p '..results_dir)
 os.execute('mkdir -p '..data_dir)
-network_dim = {500, 200, 3}  -- 1st, 2nd, 3rd layer dimensions
+network_dim = {500, 100, 2}  -- 1st, 2nd, 3rd layer dimensions
 margin = 1.5  -- HingeEmbeddingCriterion parameter
-M = 8   -- Number of dissimilar pairs parameter when generating epoch data 
-        -- (defines ratio of similar to dissimilar pairs)
-learning_rate = 0.0001  -- SGD learning rate 
-epochs = 10   -- Number of training epochs
+M = 16   -- Number of dissimilar pairs parameter when generating epoch data 
+         -- (defines ratio of similar to dissimilar pairs)
+learning_rate = 0.001  -- SGD learning rate 
+epochs = 15   -- Number of training epochs
 
 -- *************************************
 -- LOAD DATA (norb dataset)
@@ -46,7 +46,9 @@ factors, norb = load_small_norb(data_dir)
 --                    [5.lighting][6.class]
 factors_full = factors:clone() 
 -- Choose a subset of the dataset (one or more instances of rotating objects)
-factors, kNN = select_norb_subset(factors, {4})  -- def instances = {4,6,7,8,9}
+class = 2
+instances ={4}  -- class 2 has instances 4,5,7,8,9 (select 1 or more)
+factors, kNN = select_norb_subset(factors, instances, class)
 -- plot_data()
 --Basic preprocessing 
 X = norb:reshape(norb:size(1),norb:size(3)*norb:size(4)):float():squeeze()
@@ -58,14 +60,7 @@ im_size = X:size(2)
 collectgarbage()  
 
 -- Plot some examples
-nplot = 9
-imgs = torch.FloatTensor(nplot,X:size(2))
-for i = 1, nplot do
-  local cur_index = factors[torch.random(factors:size(1))][1]
-  imgs[i]:copy(X[cur_index])
-end
-imgs = imgs:reshape(nplot, 1, height, width)
-image.display(imgs)
+plot_data() -- black indicates they are NOT close. white indicates they are 
 
 -- *************************************
 -- DEFINE THE MODEL
