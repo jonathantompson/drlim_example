@@ -29,9 +29,5 @@ create_model = function()
   -- Criterion
   local criterion = nn.HingeEmbeddingCriterion(margin):cuda() 
 
-  --Necessary (Torch bug) 
-  dist.gradInput[1] = dist.gradInput[1]:cuda()
-  dist.gradInput[2] = dist.gradInput[2]:cuda()
-
   return model, criterion, encoder
 end
